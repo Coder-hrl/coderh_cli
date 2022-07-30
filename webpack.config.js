@@ -1,4 +1,6 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const resolve = (name) => path.resolve(__dirname, name)
 module.exports = {
   // webpack编译入口文件
@@ -7,6 +9,8 @@ module.exports = {
     // 必须是绝对路径,使用Node内置包path来得到
     path: resolve('./build'),
     filename: 'main.js',
+    // 打包后asset文件的名字和存在的位置
+    // assetModuleFilename: 'img/[name].[hash:6].[ext]',
   },
   module: {
     // rules数组里面可以配置多个loader,
@@ -30,7 +34,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
           {
             loader: 'postcss-loader',
             // options: {   行内模式
@@ -43,8 +47,52 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 2 } },
+          'postcss-loader',
+          'less-loader',
+        ],
+      },
+      {
+        // 可以识别.png,.jpg,.jpeg和.svg结尾的文件
+        // 加载图片资源
+        test: /\.(png|jpe?g|gif|svg)$/,
+        type: 'asset', //webpack5 新增的特性
+        generator: {
+          filename: 'img/[name].[hash:12].[ext]',
+          //与output中的assetModuleFilename配置----也可以在这个地方配置
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 100 * 1024,
+          },
+        },
+        // use: [
+        //   {
+        //     loader: 'url-loader', //可以设置limit,低于limit大小就转换成base64
+        //     options: {
+        //       // [ext] 扩展名  [name] 处理文件的名称  [hash] MD4散列函数处理
+        //       name: 'img/[name].[hash:6].[ext]',
+        //       limit: 1024 * 100,
+        //     },
+        //   },
+        // ],
+      },
+      // 加载字体文件资源,处理字体图标,也是可以通过type来进行处理
+      {
+        test: /\.ttf|eot|woff2?$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'font/[name].[hash:12].[ext]',
+        },
       },
     ],
   },
+  plugins: [
+    // // 每次打包时清除上次打包
+    new CleanWebpackPlugin(),
+    // // 生成一个html,同时可以自己指定template模板,title指的是title名称
+    new HtmlWebpackPlugin({ title: 'coderh_cli' }), //我们也可以为他提供一个模板
+  ],
 }

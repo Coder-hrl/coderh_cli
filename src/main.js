@@ -1,1 +1,6 @@
+const { sum, dataFormat } = require('./js/foo')
+require('./js/compoent')
 console.log('first')
+sum(20, 19)
+const str1 = dataFormat('abc123456')
+console.log(str1)

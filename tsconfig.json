@@ -1,0 +1,42 @@
+{
+  // 总结 使用默认配置就行
+  "compilerOptions": {
+    // 目标代码(ts->es5/6/7)
+    "target": "esnext",
+    // 目标代码所生成的模块化方案 (require和import)
+    "module": "esnext",
+    // 打开严格检查
+    "strict": false,
+    // 对jsx响应的处理
+    "jsx": "preserve",
+    // 辅助导入功能
+    "importHelpers": true,
+    // 按照node的方式去解析node
+    "moduleResolution": "node",
+    // 跳过一些lib库的类型检测
+    "skipLibCheck": true,
+    // export default和module.exports 能不能混合使用
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    // 要不要生成映射文件
+    "sourceMap": true,
+    // 文件路径在解析的时候,基本url
+    "baseUrl": ".",
+    // 指定具体解析的类型
+    "types": ["webpack-env"],
+    // 路径解析
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    // 默认配置
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
+}

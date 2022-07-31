@@ -4,26 +4,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { DefinePlugin } = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const resolve = name => path.resolve(__dirname, name)
 module.exports = {
-  // 开发模式选择
-  mode: 'development',
-  devtool: 'source-map',
-  // mode: 'production',
-  // webpack编译入口文件
+  // 绝对路径
+  context: resolve('../'),
+  // entry是相对于context的配置的路径,而不是相对于文件所在的路径.默认所处的是根目录
+  // 配置解析入口点和加载器loader的配置
   entry: './src/main.js',
   output: {
-    // 必须是绝对路径,使用Node内置包path来得到
-    path: resolve('./build'),
-    filename: 'js/main.js',
-    // publicPath的作用是index.html相对其他资源的引用,默认值为空,生产环境下使用/
-    publicPath: ''
-    // 打包后asset文件的名字和存在的位置
-    // assetModuleFilename: 'img/[name].[hash:6].[ext]',
+    path: resolve('../build'),
+    // 生成hash值,长度为12
+    filename: 'js/[name].[hash:12].js'
   },
-  // 用来缓存生成webpack模块和chunk,来改善构建速度,在生产模式下应该禁用
-  cache: true,
   module: {
     // rules数组里面可以配置多个loader,
     rules: [
@@ -124,52 +116,6 @@ module.exports = {
       }
     ]
   },
-  // 专门为webpack-dev-server配置选项
-  devServer: {
-    // 在开发的publicPath,与output的publicPath不同,默认值为/
-    // 如果设置为/abc ,我们必须通过localhost:8080/abc才可以进行访问
-    static: { publicPath: '/' },
-    // 是否构建完打开浏览器
-    open: true,
-    // 主机号
-    host: '0.0.0.0', //如果你希望项目可以被外部访问时 设置为host:0.0.0.0
-    // 端口号
-    port: 8080,
-    // hot 是否进行热更新,webpack-dev-serve v4默认是开启的
-    hot: 'only', // 发生错误时,页面进行回退
-    client: {
-      // 允许在浏览器中设置日志级别,例如,热模块更换和一个错误的发生
-      logging: 'error'
-    },
-    // 代理
-    proxy: {
-      // 简单的来配置 "/api:"http://localhost:8080"" 最后会生成 http://localhost:8080/api 的格式
-      '/api': {
-        target: 'http://localhost:8888',
-        // 改变请求源的Origin头,将请求头的host主机转为target
-        changeOrigin: true,
-        // 请求https,但不验证https证书验证
-        secure: false,
-        // 路径重写,防止出现http://localhost:8080/api的情况
-        pathRewrite: {
-          // 会去匹配以/api开头的路径,将其替换成""的形式
-          '^/api': ''
-        }
-      }
-    },
-    // 在跳转不存在的路由时,重定向到index.html上
-    historyApiFallback: true,
-    // historyApiFallback: {
-    //   rewrites: {
-    //     from: /abc/, //正则
-    //     to: 'index.html'
-    //   }
-    // },
-    // 监听文件变化
-    watchFiles: ['src/**/*', 'public/**/*'],
-    // 启用gzip压缩,默认值为false,是否为静态文件开启gzip压缩,会达到0.5的压缩比例
-    compress: true // 通过content-encoding和accept-encoding
-  },
   // resolve 帮助我们找到合适的模块,设置模块如何被解析
   resolve: {
     // 起别名
@@ -214,8 +160,6 @@ module.exports = {
         }
       ]
     }),
-    new VueLoaderPlugin(),
-    // 生产环境下 ReactRefresh有是有问题的
-    new ReactRefreshPlugin()
+    new VueLoaderPlugin()
   ]
 }

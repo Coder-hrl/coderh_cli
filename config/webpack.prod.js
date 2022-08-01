@@ -1,6 +1,9 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CSSMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
+const InlineChunkHtmlPlugin = require('inline-chunk-html-plugin')
+const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const commonConfig = require('./webpack.common')
 module.exports = function () {
@@ -18,10 +21,18 @@ module.exports = function () {
     optimization: {
       minimize: true,
       minimizer: [
-        // 已内置到webpack5中
+        // 已内置到webpack5中,使用函数的默认值就可,无需自己去重复配置
         new TerserPlugin({
+          parallel: true,
           // 是否将注释剥离到单独的文件中
-          extractComments: true
+          extractComments: false,
+          terserOptions: {
+            compress: true,
+            mangle: true,
+            toplevel: true,
+            keep_classnames: false,
+            keep_fnames: false
+          }
         })
       ],
       // webapck配置,模块的id通过什么算法来进行生成
@@ -66,8 +77,13 @@ module.exports = function () {
       new CleanWebpackPlugin(),
       // 帮助我们把css单独的打包到一个文件中
       new MiniCssExtractPlugin({
-        filename: 'css/[name].[chunkhash:6].css'
-      })
+        filename: 'css/[name].[contenthash:6].css'
+      }),
+      // CSS代码压缩
+      new CSSMinimizerWebpackPlugin(),
+      // 作用域提升
+      new webpack.optimize.ModuleConcatenationPlugin()
+      // new InlineChunkHtmlPlugin()
     ]
   })
   return config

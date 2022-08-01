@@ -18,8 +18,8 @@ module.exports = function (isProduction) {
     output: {
       path: resolve('../build'),
       // 生成hash值,长度为12
-      filename: 'js/[name].[contenthash:6].js',
-      chunkFilename: 'js/[name].chunk.js'
+      filename: 'js/[name].[chunkhash:6].js',
+      chunkFilename: 'js/[name].[contenthash:6].js'
     },
 
     // resolve 帮助我们找到合适的模块,设置模块如何被解析
@@ -147,7 +147,18 @@ module.exports = function (isProduction) {
       // // 生成一个html,同时可以自己指定template模板,title指的是title名称
       new HtmlWebpackPlugin({
         title: 'coderh_cli',
-        template: './public/index.html'
+        template: './public/index.html',
+        // inject:"head"  注入的位置,有head标签,body标签
+        cache: true, //的那个文件没有任何改变就使用之前的缓存,
+        minify: isProduction
+          ? {
+              // 生产环境下,移除多余的注释
+              removeComments: true,
+              removeRedundantAttributes: false, //是否移除多余的属性,
+              removeAttributeQuotes: true, //移除属性的单引号
+              collapseWhitespace: true //移除index.html中的空格
+            }
+          : false
       }),
       //我们也可以为他提供一个模板
       new DefinePlugin({

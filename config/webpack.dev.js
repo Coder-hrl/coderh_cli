@@ -6,6 +6,7 @@ module.exports = function () {
   process.env.NODE_ENV = 'development'
   const config = merge(commonConfig(false), {
     mode: 'development',
+    devtool: 'cheap-module-source-map',
     cache: true,
     devServer: {
       // 在开发的publicPath,与output的publicPath不同,默认值为/

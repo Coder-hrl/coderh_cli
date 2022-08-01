@@ -9,12 +9,17 @@
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
+  <% if(process.env.NODE_ENV=='production' ) { %>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.core.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.4/dayjs.min.js"></script>
+    <% } %>
 </head>
 
 <body>
   <div id="app"></div>
   <div id="root"></div>
   <!-- <noscript>请升级你的浏览器,你的浏览器太low了</noscript> -->
+
 </body>
 
 </html>

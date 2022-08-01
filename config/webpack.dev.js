@@ -4,7 +4,7 @@ const commonConfig = require('./webpack.common')
 module.exports = function () {
   // 设置开发时全局变量NODE_ENV
   process.env.NODE_ENV = 'development'
-  const config = merge(commonConfig, {
+  const config = merge(commonConfig(false), {
     mode: 'development',
     cache: true,
     devServer: {

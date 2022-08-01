@@ -10,8 +10,13 @@
 打包后的文件夹目录
 
 ----build
+
 --font
+
 --img
+
 --js
+
 favicon.ico
+
 index.html

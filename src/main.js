@@ -10,7 +10,11 @@ app.mount('#app')
 // import './js/react.js'
 // 需要自己手动去音容
 require('./js/compoent')
-import(/* webpackChunkName:"react"*/ './js/react').then(() => {
+import(
+  /* webpackPrefetch:true */
+  /* webpackChunkName:"react" */
+  './js/react'
+).then(() => {
   console.log('我加载了')
 })
 import { sum as stirngSum } from './js/foo.ts'

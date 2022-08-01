@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const { DefinePlugin } = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const resolve = name => path.resolve(__dirname, name)
@@ -9,12 +10,14 @@ module.exports = {
   // 绝对路径
   context: resolve('../'),
   // entry是相对于context的配置的路径,而不是相对于文件所在的路径.默认所处的是根目录
-  // 配置解析入口点和加载器loader的配置
+  // 配置解析入口点和加载器loader的配置,可以通过设置多入口进行打包
   entry: './src/main.js',
+
   output: {
     path: resolve('../build'),
     // 生成hash值,长度为12
-    filename: 'js/[name].[hash:12].js'
+    filename: 'js/[name].[contenthash:6].js',
+    chunkFilename: 'js/[name].chunk.js'
   },
   module: {
     // rules数组里面可以配置多个loader,
@@ -132,6 +135,50 @@ module.exports = {
     extensions: ['.js', '.css', '.json', '.vue'],
     // 模块解析
     modules: ['node_modules']
+  },
+  // 代码压缩优化
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // 已内置到webpack5中
+      new TerserPlugin({
+        // 是否将注释剥离到单独的文件中
+        extractComments: true
+      })
+    ],
+    // webapck配置,模块的id通过什么算法来进行生成
+    chunkIds: 'natural', // natural 自然数    named  名字  determinstic 相同文件  相同的id
+    splitChunks: {
+      // async异步进行导入
+      // initial 同步导入
+      // all  同步/异步导入
+      chunks: 'all',
+      // 最小尺寸,拆分出来的包最小的尺寸应为20kb
+      minSize: 1024 * 20,
+      // 最大尺寸,拆分出来的包最大的尺寸应为30kb
+      maxSize: 1024 * 30,
+      // minChunks 表示包至少被导入了几次就进行单独打包
+      minChunks: 2,
+
+      cacheGroups: {
+        // 进行缓存分组
+        vendors: {
+          // 适配mac和window系统,通过正则进行匹配
+          test: /[\\/]node_modules[/\\/]/,
+          filename: '[id]_vendors.js',
+          priority: -10 //优先级
+        },
+        bar: {
+          // 对以bar_开头的文件进行一个单独的打包
+          test: /bar_/,
+          filename: '[id]_bar.js'
+        },
+        default: {
+          // 最小引用值打包
+          minChunks: 2
+        }
+      }
+    }
   },
   plugins: [
     // // 每次打包时清除上次打包的文件

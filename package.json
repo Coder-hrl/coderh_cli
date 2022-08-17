@@ -46,6 +46,7 @@
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
+    "tapable": "^2.2.1",
     "thread-loader": "^3.0.4",
     "url-loader": "^4.1.1",
     "vue-loader": "^17.0.0",

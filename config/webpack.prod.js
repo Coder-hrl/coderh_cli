@@ -9,6 +9,7 @@ const commonConfig = require('./webpack.common')
 module.exports = function () {
   // 设置开发时全局变量NODE_ENV
   process.env.NODE_ENV = 'production'
+
   const config = merge(commonConfig(true), {
     mode: 'production',
     // 开发环境下需要设置不需要被打包的包
@@ -19,6 +20,10 @@ module.exports = function () {
     },
     // 打包代码压缩优化
     optimization: {
+      // 用来做代码treeShaking,在模式为production中是默认开启的
+      // 会标注出哪些代码是dead code,然后通过minimize优化,剪去dead code
+      usedExports: true,
+      // 开启插件优化
       minimize: true,
       minimizer: [
         // 已内置到webpack5中,使用函数的默认值就可,无需自己去重复配置
@@ -81,7 +86,7 @@ module.exports = function () {
       }),
       // CSS代码压缩
       new CSSMinimizerWebpackPlugin(),
-      // 作用域提升
+      // 用来做作用域提升
       new webpack.optimize.ModuleConcatenationPlugin()
       // new InlineChunkHtmlPlugin()
     ]

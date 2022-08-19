@@ -21,6 +21,8 @@ module.exports = function (isProduction) {
       filename: 'js/[name].[chunkhash:6].js',
       chunkFilename: 'js/[name].[contenthash:6].js'
     },
+    // 忽略node_module里面的文件 大大加快速度
+    // watchOptions: { ingnored: /node_modules/ },
 
     // resolve 帮助我们找到合适的模块,设置模块如何被解析
     resolve: {
@@ -54,8 +56,16 @@ module.exports = function (isProduction) {
            *      { loader:'babel-loader' }
            *    ]
            */
-          use: ['babel-loader'],
-          exclude: /node_modules/,
+          use: [
+            'thread-loader',
+            {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true
+              }
+            }
+          ],
+          exclude: [/node_modules/, /build/],
           // 包含目录 src 正则
           include: /src/
         },
@@ -86,6 +96,7 @@ module.exports = function (isProduction) {
               // },
             }
           ]
+          // sideEffects: true 两种方案使用一种便可
         },
         {
           test: /\.less$/,

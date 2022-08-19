@@ -7,7 +7,9 @@ module.exports = function () {
   const config = merge(commonConfig(false), {
     mode: 'development',
     devtool: 'cheap-module-source-map',
-    cache: true,
+    cache: {
+      type: 'filesystem'
+    },
     devServer: {
       // 在开发的publicPath,与output的publicPath不同,默认值为/
       // 如果设置为/abc ,我们必须通过localhost:8080/abc才可以进行访问

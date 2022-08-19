@@ -22,6 +22,7 @@ module.exports = function () {
     optimization: {
       // 用来做代码treeShaking,在模式为production中是默认开启的
       // 会标注出哪些代码是dead code,然后通过minimize优化,剪去dead code
+      // unused haromony export mul
       usedExports: true,
       // 开启插件优化
       minimize: true,
@@ -31,6 +32,7 @@ module.exports = function () {
           parallel: true,
           // 是否将注释剥离到单独的文件中
           extractComments: false,
+          exclude: /node_modules/,
           terserOptions: {
             compress: true,
             mangle: true,

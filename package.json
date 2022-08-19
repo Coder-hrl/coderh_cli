@@ -1,7 +1,7 @@
 {
   "name": "coderh_cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "coderh cli building ~ ~",
   "main": "index.js",
   "scripts": {
     "test": "webpack --config ./config/webpack.common.js --env production",
@@ -10,8 +10,11 @@
     "type-check": "tsc --noEmit",
     "type-check-watch": "tsc --noEmit --watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "webpack",
+    "cli"
+  ],
+  "author": "coderh",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -64,5 +67,8 @@
     "regenerator-runtime": "^0.13.9",
     "typescript": "^4.7.4",
     "vue": "^3.2.37"
-  }
+  },
+  "sideEffects": [
+    "**.css"
+  ]
 }

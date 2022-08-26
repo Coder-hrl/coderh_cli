@@ -73,12 +73,14 @@ module.exports = function (isProduction) {
           test: /\.tsx?$/,
           use: ['babel-loader'],
           // 排除目录正则
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          include: /src/
         },
         {
           test: /\.vue$/,
           use: ['vue-loader'],
-          include: /src/
+          include: /src/,
+          exclude: /node_modules/
         },
         {
           // 用来匹配css资源
@@ -95,7 +97,9 @@ module.exports = function (isProduction) {
               //   },
               // },
             }
-          ]
+          ],
+          include: /src/,
+          exclude: /node_modules/
           // sideEffects: true 两种方案使用一种便可
         },
         {
@@ -105,7 +109,9 @@ module.exports = function (isProduction) {
             { loader: 'css-loader', options: { importLoaders: 2 } },
             'postcss-loader',
             'less-loader'
-          ]
+          ],
+          include: /src/,
+          exclude: /node_modules/
         },
         {
           test: /\.scss$/,
@@ -114,7 +120,9 @@ module.exports = function (isProduction) {
             { loader: 'css-loader', options: { importLoaders: 2 } },
             'postcss-loader',
             'sass-loader'
-          ]
+          ],
+          include: /src/,
+          exclude: /node_modules/
         },
         {
           // 可以识别.png,.jpg,.jpeg和.svg结尾的文件
@@ -129,7 +137,9 @@ module.exports = function (isProduction) {
             dataUrlCondition: {
               maxSize: 100 * 1024
             }
-          }
+          },
+          include: /src/,
+          exclude: /node_modules/
           // use: [
           //   {
           //     loader: 'url-loader', //可以设置limit,低于limit大小就转换成base64
@@ -147,7 +157,9 @@ module.exports = function (isProduction) {
           type: 'asset/resource',
           generator: {
             filename: 'font/[name].[hash:12].[ext]'
-          }
+          },
+          include: /src/,
+          exclude: /node_modules/
         }
       ]
     },

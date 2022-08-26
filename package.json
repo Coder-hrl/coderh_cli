@@ -8,7 +8,8 @@
     "start": "webpack serve --config ./config/webpack.dev.js --env development",
     "build": " webpack --config ./config/webpack.prod.js --env production",
     "type-check": "tsc --noEmit",
-    "type-check-watch": "tsc --noEmit --watch"
+    "type-check-watch": "tsc --noEmit --watch",
+    "cz": "git add . && git cz && git push"
   },
   "keywords": [
     "webpack",
@@ -32,6 +33,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
     "eslint-plugin-react": "^7.30.1",
     "express": "^4.18.1",
@@ -70,5 +72,10 @@
   },
   "sideEffects": [
     "**.css"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

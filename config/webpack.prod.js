@@ -33,6 +33,7 @@ module.exports = function () {
           // 是否将注释剥离到单独的文件中
           extractComments: false,
           exclude: /node_modules/,
+          include: /src/,
           terserOptions: {
             compress: true,
             mangle: true,

@@ -24,7 +24,7 @@ module.exports = function (isProduction) {
     // 忽略node_module里面的文件 大大加快速度
     // watchOptions: { ingnored: /node_modules/ },
 
-    // resolve 帮助我们找到合适的模块,设置模块如何被解析
+    // resolve 提交资源搜索速度,需要和jsconfig文件配置一起使用,设置模块如何被解析
     resolve: {
       // 起别名
       alias: {

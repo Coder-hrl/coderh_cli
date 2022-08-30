@@ -9,7 +9,7 @@
     "build": " webpack --config ./config/webpack.prod.js --env production",
     "type-check": "tsc --noEmit",
     "type-check-watch": "tsc --noEmit --watch",
-    "cz": "git add . && git cz && git push"
+    "cz": "git add . && git cz && git push && git push gitee"
   },
   "keywords": [
     "webpack",

@@ -23,7 +23,7 @@
     // 文件路径在解析的时候,基本url
     "baseUrl": ".",
     // 指定具体解析的类型
-    "types": ["webpack-env"],
+    "types": ["node", "webpack-env"],
     // 路径解析
     "paths": {
       "@/*": ["src/*"]

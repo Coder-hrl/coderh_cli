@@ -1,4 +1,10 @@
+# 打包文件
 build
+# 依赖文件
 node_modules
+# macos自动生成的文件
 .DS_Store
+# vscode配置文件
 .vscode
+# yarn错误信息警告
+yarn-error.log
